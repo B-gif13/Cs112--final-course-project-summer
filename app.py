@@ -20,9 +20,9 @@ st.caption("Synthetic, seeded dataset for coursework purposes only — not real 
 
 @st.cache_data
 def load_data():
-    utilities = pd.read_csv("../data/utilities.csv")
-    substations = pd.read_csv("../data/substations.csv")
-    lines = pd.read_csv("../data/lines.csv")
+    utilities = pd.read_csv("../networkX graph//utilities.csv")
+    substations = pd.read_csv("../networkX graph//substations.csv")
+    lines = pd.read_csv("../networkX graph//lines.csv")
     return utilities, substations, lines
 
 
@@ -63,7 +63,7 @@ with tab3:
         "along with the geographic and spring-layout network graphs."
     )
     try:
-        centrality = pd.read_csv("../data/substation_centrality.csv")
+        centrality = pd.read_csv("../networkX graph//substation_centrality.csv")
         st.subheader("Top 10 Substations by Betweenness Centrality")
         st.dataframe(
             centrality.sort_values("betweenness_centrality", ascending=False)
