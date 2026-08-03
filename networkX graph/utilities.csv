@@ -1,0 +1,11 @@
+utility_id,utility_name,region,type
+U01,ECG,Greater Accra,Transmission
+U02,NEDCo,Ashanti,Generation
+U03,VRA,Eastern,Generation
+U04,GRIDCo,Western,Transmission
+U05,Enclave Power,Central,Distribution
+U06,Meridian,Volta,Generation
+U07,Sunon Asogli,Northern,Generation
+U08,Bui Power Authority,Bono,Generation
+U09,Karpowership Ghana,Ahafo,Transmission
+U10,AMERI Energy,Oti,Generation

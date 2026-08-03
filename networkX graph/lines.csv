@@ -1,0 +1,56 @@
+line_id,from_substation,to_substation,voltage_kv,length_km,status
+L001,S30,S16,11,36.6,Active
+L002,S04,S42,330,67.2,Active
+L003,S16,S11,161,39.9,Active
+L004,S26,S04,33,31.6,Under Maintenance
+L005,S17,S30,69,35.0,Under Maintenance
+L006,S10,S13,69,19.0,Active
+L007,S38,S35,11,60.3,Active
+L008,S04,S38,161,41.2,Active
+L009,S04,S33,11,68.4,Active
+L010,S39,S05,33,33.5,Active
+L011,S38,S39,11,50.3,Under Maintenance
+L012,S43,S38,330,42.8,Active
+L013,S14,S43,69,20.6,Under Maintenance
+L014,S09,S43,69,37.7,Active
+L015,S01,S30,330,79.9,Active
+L016,S05,S35,33,41.5,Active
+L017,S23,S05,33,30.8,Active
+L018,S29,S35,69,49.7,Active
+L019,S43,S36,69,74.7,Active
+L020,S09,S17,11,71.4,Active
+L021,S18,S19,330,18.4,Active
+L022,S14,S44,69,41.4,Active
+L023,S04,S06,161,66.7,Active
+L024,S01,S22,33,51.7,Active
+L025,S11,S29,330,57.0,Active
+L026,S08,S05,33,44.6,Active
+L027,S38,S36,33,35.5,Active
+L028,S20,S24,11,72.1,Active
+L029,S44,S16,11,29.6,Under Maintenance
+L030,S40,S10,33,69.4,Active
+L031,S27,S02,33,59.5,Active
+L032,S27,S43,33,22.8,Active
+L033,S25,S03,161,19.3,Under Maintenance
+L034,S23,S20,33,19.4,Active
+L035,S26,S22,69,69.4,Active
+L036,S23,S42,330,33.2,Active
+L037,S02,S08,69,15.9,Active
+L038,S03,S07,330,35.9,Active
+L039,S28,S39,330,11.0,Active
+L040,S17,S03,161,2.1,Active
+L041,S24,S28,11,76.0,Active
+L042,S40,S21,11,58.1,Active
+L043,S33,S20,161,27.4,Active
+L044,S36,S09,33,34.8,Under Maintenance
+L045,S44,S12,330,46.4,Under Maintenance
+L046,S36,S01,69,24.4,Under Maintenance
+L047,S38,S39,69,38.3,Under Maintenance
+L048,S44,S14,330,38.9,Active
+L049,S43,S06,69,42.2,Active
+L050,S06,S16,69,19.5,Active
+L051,S10,S02,11,21.1,Under Maintenance
+L052,S40,S05,161,34.3,Active
+L053,S25,S32,161,21.0,Active
+L054,S07,S28,33,15.7,Under Maintenance
+L055,S04,S36,33,73.6,Active
