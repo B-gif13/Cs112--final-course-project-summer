@@ -1,0 +1,11 @@
+line_id,from_substation,to_substation,voltage_kv,length_km,status
+L015,S01,S30,330,79.9,Active
+L041,S24,S28,11,76.0,Active
+L019,S43,S36,69,74.7,Active
+L055,S04,S36,33,73.6,Active
+L028,S20,S24,11,72.1,Active
+L020,S09,S17,11,71.4,Active
+L030,S40,S10,33,69.4,Active
+L035,S26,S22,69,69.4,Active
+L009,S04,S33,11,68.4,Active
+L002,S04,S42,330,67.2,Active
