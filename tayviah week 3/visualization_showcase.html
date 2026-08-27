@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>National Grid Network — Visualization Showcase</title>
+<style>
+  body { background:#0F172A; color:#E2E8F0; font-family:Georgia, 'Times New Roman', serif; margin:0; padding:40px; }
+  h1 { font-size:2rem; border-bottom:2px solid #334155; padding-bottom:12px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:32px; }
+  .card { background:#1E293B; border-radius:10px; padding:20px; }
+  .card img { width:100%; border-radius:6px; }
+  .card h3 { margin-top:0; }
+  a { color:#38BDF8; }
+  .full { grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+<h1>National Electricity Grid — Visualization Showcase</h1>
+<p>Team 3 (Tayviah) — Network graph, centrality, and grid-flow visualizations.</p>
+<div class="grid">
+  <div class="card"><h3>Force-Directed Network</h3><img src="network_force_directed_pub.png"></div>
+  <div class="card"><h3>Utility Infrastructure Footprint</h3><img src="utility_footprint_comparison.png"></div>
+  <div class="card"><h3>Inter-Regional Chord Diagram</h3><img src="chord_diagram_regions.png"></div>
+  <div class="card"><h3>Region x Region Line Density</h3><img src="heatmap_line_density.png"></div>
+  <div class="card"><h3>Maintenance Status by Region</h3><img src="heatmap_maintenance_status.png"></div>
+  <div class="card full"><h3>Interactive 3D Network</h3><p><a href="network_3d.html">Open interactive 3D view →</a></p></div>
+  <div class="card full"><h3>Animated Grid Expansion</h3><p><a href="grid_expansion_animated.html">Open animated map →</a> (synthetic commissioning years — pending real data)</p></div>
+</div>
+</body>
+</html>
