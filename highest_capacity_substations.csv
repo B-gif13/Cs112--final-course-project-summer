@@ -1,0 +1,11 @@
+substation_id,substation_name,region,capacity_mva
+S02,Substation 2,Volta,200
+S08,Substation 8,Central,200
+S12,Substation 12,Northern,200
+S26,Substation 26,Eastern,200
+S41,Substation 41,Oti,200
+S43,Substation 43,Western,200
+S28,Substation 28,Northern,200
+S40,Substation 40,Western,200
+S10,Substation 10,Western,150
+S13,Substation 13,Central,150
