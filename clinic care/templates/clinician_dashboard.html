@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — ClinicCare-Lite{% endblock %}
+
+{# EXPECTED CONTEXT (from Naeem's route, in addition to base.html's):
+   stats = { "open_tasks": int, "pending_review": int, "patients_active": int, "overdue": int }
+   tasks = [ { "id": str, "patient_name": str, "title": str, "status": "pending"|"submitted"|"reviewed",
+               "due_date": "YYYY-MM-DD", "overdue": bool } , ... ]
+#}
+
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Good to see you, {{ current_user.name.split(' ')[0] }}</h1>
+    <p class="text-muted">Here's what needs your attention today.</p>
+  </div>
+  <a href="{{ url_for('task_create') }}" class="btn btn-primary">+ New task</a>
+</div>
+
+<div class="card-grid" style="margin-bottom: 24px;">
+  <div class="card stat-card">
+    <div class="stat-value">{{ stats.open_tasks }}</div>
+    <div class="stat-label">Open tasks</div>
+  </div>
+  <div class="card stat-card">
+    <div class="stat-value" style="color: var(--amber);">{{ stats.pending_review }}</div>
+    <div class="stat-label">Awaiting review</div>
+  </div>
+  <div class="card stat-card">
+    <div class="stat-value">{{ stats.patients_active }}</div>
+    <div class="stat-label">Active patients</div>
+  </div>
+  <div class="card stat-card">
+    <div class="stat-value" style="color: var(--danger);">{{ stats.overdue }}</div>
+    <div class="stat-label">Overdue</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="flex-between" style="margin-bottom:16px;">
+    <h2>Task pipeline</h2>
+    <a href="{{ url_for('review') }}" class="text-muted" style="font-size:13px;">View full review queue →</a>
+  </div>
+
+  {% if tasks %}
+  <table>
+    <thead>
+      <tr><th>Patient</th><th>Task</th><th>Status</th><th>Due</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for t in tasks %}
+      <tr>
+        <td>{{ t.patient_name }}</td>
+        <td>{{ t.title }}</td>
+        <td>
+          <div class="status-thread">
+            <div class="step {% if t.status in ['pending','submitted','reviewed'] %}done{% endif %} {% if t.status == 'pending' %}current{% endif %}"><span class="dot"></span></div>
+            <div class="connector"></div>
+            <div class="step {% if t.status in ['submitted','reviewed'] %}done{% endif %} {% if t.status == 'submitted' %}current{% endif %}"><span class="dot"></span></div>
+            <div class="connector"></div>
+            <div class="step {% if t.status == 'reviewed' %}done{% endif %} {% if t.status == 'reviewed' %}current{% endif %}"><span class="dot"></span></div>
+          </div>
+        </td>
+        <td>
+          <span class="mono">{{ t.due_date }}</span>
+          {% if t.overdue %}<span class="badge badge-overdue">Overdue</span>{% endif %}
+        </td>
+        <td><a href="{{ url_for('review', task_id=t.id) }}" class="btn btn-secondary btn-sm">Open</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    <h3>No tasks yet</h3>
+    <p>Create your first task to start tracking patient work.</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

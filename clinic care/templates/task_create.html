@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}New task — ClinicCare-Lite{% endblock %}
+{% set active_page = 'task_create' %}
+
+{# EXPECTED CONTEXT: patients = [ {"id": str, "name": str}, ... ]
+   EXPECTED ROUTE: POST to url_for('task_create') with fields:
+   patient_id, title, instructions, due_date #}
+
+{% block content %}
+<h1>New task</h1>
+<p class="text-muted" style="margin-bottom:24px;">Assign work to a patient with clear instructions and a due date.</p>
+
+<div class="card" style="max-width:560px;">
+  <form method="POST" action="{{ url_for('task_create') }}">
+    <div class="field">
+      <label for="patient_id">Patient</label>
+      <select id="patient_id" name="patient_id" required>
+        <option value="" disabled selected>Select a patient</option>
+        {% for p in patients %}
+        <option value="{{ p.id }}">{{ p.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="title">Task title</label>
+      <input type="text" id="title" name="title" placeholder="e.g. Weekly symptom log" required>
+    </div>
+
+    <div class="field">
+      <label for="instructions">Instructions</label>
+      <textarea id="instructions" name="instructions" placeholder="Explain exactly what the patient needs to do and submit." required></textarea>
+    </div>
+
+    <div class="field">
+      <label for="due_date">Due date</label>
+      <input type="date" id="due_date" name="due_date" required>
+    </div>
+
+    <div class="field">
+      <label>Accepted upload types</label>
+      <div class="text-muted" style="font-size:13px;">Patients will be able to attach <code class="mono">.txt</code>, <code class="mono">.csv</code>, or <code class="mono">.pdf</code> files.</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create task</button>
+    <a href="{{ url_for('clinician_dashboard') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}

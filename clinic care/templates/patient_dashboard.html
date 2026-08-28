@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — ClinicCare-Lite{% endblock %}
+
+{# EXPECTED CONTEXT:
+   tasks = [ { "id": str, "title": str, "clinician_name": str, "status": "pending"|"submitted"|"reviewed",
+               "due_date": "YYYY-MM-DD", "instructions": str, "feedback": str|None } , ... ]
+#}
+
+{% block content %}
+<div class="topbar">
+  <div>
+    <h1>Hi {{ current_user.name.split(' ')[0] }}</h1>
+    <p class="text-muted">Here's what's waiting on you.</p>
+  </div>
+</div>
+
+{% if tasks %}
+  {% for t in tasks %}
+  <div class="card">
+    <div class="flex-between">
+      <div>
+        <h3>{{ t.title }}</h3>
+        <p class="text-muted" style="font-size:13px; margin:2px 0 0;">Assigned by {{ t.clinician_name }} · Due <span class="mono">{{ t.due_date }}</span></p>
+      </div>
+      <span class="badge badge-{{ t.status }}">{{ t.status|capitalize }}</span>
+    </div>
+
+    <div class="status-thread" style="margin: 16px 0;">
+      <div class="step {% if t.status in ['pending','submitted','reviewed'] %}done{% endif %} {% if t.status == 'pending' %}current{% endif %}">
+        <span class="dot"></span><span class="label">Assigned</span>
+      </div>
+      <div class="connector"></div>
+      <div class="step {% if t.status in ['submitted','reviewed'] %}done{% endif %} {% if t.status == 'submitted' %}current{% endif %}">
+        <span class="dot"></span><span class="label">Submitted</span>
+      </div>
+      <div class="connector"></div>
+      <div class="step {% if t.status == 'reviewed' %}done{% endif %} {% if t.status == 'reviewed' %}current{% endif %}">
+        <span class="dot"></span><span class="label">Reviewed</span>
+      </div>
+    </div>
+
+    <p style="font-size:14px;">{{ t.instructions }}</p>
+
+    {% if t.feedback %}
+    <div class="card" style="background: var(--brand-light); border-color: var(--brand-light); box-shadow:none;">
+      <strong style="font-size:13px;">Clinician feedback</strong>
+      <p style="margin:6px 0 0; font-size:14px;">{{ t.feedback }}</p>
+    </div>
+    {% endif %}
+
+    {% if t.status == 'pending' %}
+    <a href="{{ url_for('submission', task_id=t.id) }}" class="btn btn-primary btn-sm" style="margin-top:12px;">Submit work</a>
+    {% endif %}
+  </div>
+  {% endfor %}
+{% else %}
+  <div class="card">
+    <div class="empty-state">
+      <h3>Nothing assigned yet</h3>
+      <p>Your clinician will assign tasks here when they're ready.</p>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

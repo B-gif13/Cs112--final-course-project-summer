@@ -1,0 +1,45 @@
+substation_id,substation_name,utility_id,region,capacity_mva,latitude,longitude
+S01,Substation 1,U09,Oti,100,9.3807,-0.1956
+S02,Substation 2,U02,Volta,200,9.4959,-0.0917
+S03,Substation 3,U10,Oti,100,6.7111,-1.5045
+S04,Substation 4,U07,Western,50,6.4078,-0.2774
+S05,Substation 5,U01,Ashanti,75,5.528,-1.6196
+S06,Substation 6,U01,Greater Accra,50,4.5211,0.7483
+S07,Substation 7,U02,Western,50,9.1936,-1.2683
+S08,Substation 8,U04,Central,200,9.1779,-2.1844
+S09,Substation 9,U04,Ashanti,150,10.8173,-3.0119
+S10,Substation 10,U09,Western,150,9.4528,-3.2053
+S11,Substation 11,U10,Ashanti,75,7.7999,-0.8074
+S12,Substation 12,U01,Northern,200,5.1917,-0.652
+S13,Substation 13,U09,Central,150,8.5645,-3.2676
+S14,Substation 14,U04,Bono,100,9.9709,-0.1147
+S15,Substation 15,U09,Volta,150,7.7998,-3.0351
+S16,Substation 16,U07,Eastern,100,5.7929,-2.9967
+S17,Substation 17,U04,Volta,75,6.9304,-3.1586
+S18,Substation 18,U08,Volta,50,5.5501,-1.8131
+S19,Substation 19,U10,Western,50,10.6977,-0.9863
+S20,Substation 20,U05,Central,150,10.4958,-2.0469
+S21,Substation 21,U01,Ashanti,100,10.4702,-1.1156
+S22,Substation 22,U03,Oti,25,8.3931,-0.8734
+S23,Substation 23,U07,Eastern,25,7.6759,-0.0449
+S24,Substation 24,U06,Ahafo,25,5.2271,0.6707
+S25,Substation 25,U05,Western,50,6.8594,-0.707
+S26,Substation 26,U03,Eastern,200,10.9046,-2.2065
+S27,Substation 27,U04,Bono,50,9.744,-1.1716
+S28,Substation 28,U06,Northern,200,6.0564,-1.4682
+S29,Substation 29,U02,Central,100,6.0657,-2.8755
+S30,Substation 30,U02,Ahafo,150,8.1878,-0.3346
+S31,Substation 31,U07,Western,25,5.0119,-1.7057
+S32,Substation 32,U02,Volta,100,9.2574,-1.45
+S33,Substation 33,U06,Greater Accra,100,9.8042,0.5873
+S34,Substation 34,U06,Western,150,10.8569,-3.0562
+S35,Substation 35,U10,Greater Accra,100,7.9626,-0.3595
+S36,Substation 36,U05,Volta,150,5.3174,-0.3922
+S37,Substation 37,U01,Northern,75,8.7884,-3.0272
+S38,Substation 38,U08,Central,150,10.6545,-0.023
+S39,Substation 39,U09,Ashanti,25,5.5733,0.3027
+S40,Substation 40,U02,Western,200,7.9299,-2.8083
+S41,Substation 41,U07,Oti,200,8.4429,-2.4378
+S42,Substation 42,U02,Volta,25,10.7684,-0.8867
+S43,Substation 43,U09,Western,200,10.5379,-2.6692
+S44,Substation 44,U05,Bono,150,9.4092,-2.4743

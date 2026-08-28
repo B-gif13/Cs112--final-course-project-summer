@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}ClinicCare-Lite{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+{# ------------------------------------------------------------------
+   EXPECTED CONTEXT from Naeem's Flask routes (session / render_template):
+     current_user = { "name": str, "role": "clinician"|"patient", "id": str }
+     unread_message_count = int   (optional, defaults to 0 if absent)
+   Pages that need a full-screen layout without the sidebar (login/register)
+   extend base_auth.html instead of this file.
+------------------------------------------------------------------ #}
+
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="sidebar-brand">Clinic<span>Care</span></div>
+
+    <div class="nav-section-label">Workspace</div>
+    <a class="nav-link {% if active_page == 'dashboard' %}active{% endif %}"
+       href="{{ url_for('clinician_dashboard' if current_user.role == 'clinician' else 'patient_dashboard') }}">
+      Dashboard
+    </a>
+    {% if current_user.role == 'clinician' %}
+    <a class="nav-link {% if active_page == 'task_create' %}active{% endif %}" href="{{ url_for('task_create') }}">New Task</a>
+    <a class="nav-link {% if active_page == 'review' %}active{% endif %}" href="{{ url_for('review') }}">Review Queue</a>
+    {% else %}
+    {# Submission is always tied to a specific task, so this points at the
+       dashboard (where each pending task has its own "Submit work" button)
+       rather than a bare submission URL that has no task_id to build with. #}
+    <a class="nav-link {% if active_page == 'submission' %}active{% endif %}" href="{{ url_for('patient_dashboard') }}">Submit Work</a>
+    {% endif %}
+    <a class="nav-link {% if active_page == 'messages' %}active{% endif %}" href="{{ url_for('messages') }}">
+      Messages
+      {% if unread_message_count %}<span class="badge badge-overdue">{{ unread_message_count }}</span>{% endif %}
+    </a>
+    {% if current_user.role == 'clinician' %}
+    <a class="nav-link {% if active_page == 'analytics' %}active{% endif %}" href="{{ url_for('analytics') }}">Analytics</a>
+    {% endif %}
+
+    <div class="sidebar-footer">
+      Signed in as<br><strong style="color:#fff">{{ current_user.name }}</strong><br>
+      <a href="{{ url_for('logout') }}" style="color:#CFE4E2;">Log out</a>
+    </div>
+  </aside>
+
+  <main class="main">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="flash flash-{{ category }}">{{ msg }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

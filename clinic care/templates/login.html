@@ -1,0 +1,36 @@
+{% extends "base_auth.html" %}
+{% block title %}Log in — ClinicCare-Lite{% endblock %}
+
+{# EXPECTED ROUTE: POST to url_for('login') with fields: email, password, role
+   Naeem's backend verifies bcrypt hash + sets session, redirects by role. #}
+
+{% block content %}
+<div class="display">Clinic<span style="color:var(--brand)">Care</span></div>
+<p class="auth-subtitle">Log in to continue your work.</p>
+
+<form method="POST" action="{{ url_for('login') }}">
+  <div class="field">
+    <label for="role">I am a</label>
+    <select id="role" name="role" required>
+      <option value="clinician">Clinician</option>
+      <option value="patient">Patient</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="email">Email or ID</label>
+    <input type="text" id="email" name="email" required autocomplete="username">
+  </div>
+
+  <div class="field">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required autocomplete="current-password">
+  </div>
+
+  <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Log in</button>
+</form>
+
+<p style="text-align:center; margin-top:18px; font-size:13px;" class="text-muted">
+  New here? <a href="{{ url_for('register') }}">Create an account</a>
+</p>
+{% endblock %}

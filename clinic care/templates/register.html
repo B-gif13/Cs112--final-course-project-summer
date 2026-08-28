@@ -1,0 +1,54 @@
+{% extends "base_auth.html" %}
+{% block title %}Create account — ClinicCare-Lite{% endblock %}
+
+{# EXPECTED ROUTE: POST to url_for('register') with fields:
+   full_name, email, password, confirm_password, role, clinician_id/patient_id
+   Naeem's backend validates the ID format, hashes password with bcrypt. #}
+
+{% block content %}
+<div class="display">Create your account</div>
+<p class="auth-subtitle">Set up access for clinicians or patients.</p>
+
+<form method="POST" action="{{ url_for('register') }}">
+  <div class="field">
+    <label for="role">Account type</label>
+    <select id="role" name="role" required onchange="document.getElementById('id-field').style.display = this.value ? 'block' : 'none'; document.getElementById('id-label').textContent = this.value === 'clinician' ? 'Clinician ID' : 'Patient ID';">
+      <option value="clinician">Clinician</option>
+      <option value="patient">Patient</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="full_name">Full name</label>
+    <input type="text" id="full_name" name="full_name" required>
+  </div>
+
+  <div class="field" id="id-field">
+    <label id="id-label" for="external_id">Clinician ID</label>
+    <input type="text" id="external_id" name="external_id" placeholder="e.g. CLN-0042" required>
+    <div class="hint">Provided by your clinic administrator.</div>
+  </div>
+
+  <div class="field">
+    <label for="email">Email</label>
+    <input type="email" id="email" name="email" required autocomplete="email">
+  </div>
+
+  <div class="field">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required autocomplete="new-password" minlength="8">
+    <div class="hint">At least 8 characters.</div>
+  </div>
+
+  <div class="field">
+    <label for="confirm_password">Confirm password</label>
+    <input type="password" id="confirm_password" name="confirm_password" required minlength="8">
+  </div>
+
+  <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center;">Create account</button>
+</form>
+
+<p style="text-align:center; margin-top:18px; font-size:13px;" class="text-muted">
+  Already registered? <a href="{{ url_for('login') }}">Log in</a>
+</p>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Review — ClinicCare-Lite{% endblock %}
+{% set active_page = 'review' %}
+
+{# EXPECTED CONTEXT:
+   queue = [ { "id": str, "patient_name": str, "title": str, "submitted_at": str,
+               "status": "submitted"|"reviewed" }, ... ]
+   selected = { "id": str, "patient_name": str, "title": str, "instructions": str,
+                "note": str, "file_name": str, "file_url": str, "submitted_at": str,
+                "status": str, "feedback": str|None } | None
+   EXPECTED ROUTE: POST to url_for('review', task_id=selected.id) with field: feedback,
+   decision ("approve"|"request_changes") #}
+
+{% block content %}
+<h1>Review queue</h1>
+<p class="text-muted" style="margin-bottom:24px;">Submissions waiting on clinical review, oldest first.</p>
+
+<div style="display:flex; gap:20px; align-items:flex-start;">
+  <div class="card" style="width:300px; padding:12px;">
+    {% if queue %}
+      {% for item in queue %}
+      <a href="{{ url_for('review', task_id=item.id) }}"
+         class="nav-link {% if selected and selected.id == item.id %}active{% endif %}"
+         style="display:block; color:var(--ink); padding:12px; border-radius:8px;">
+        <div class="flex-between">
+          <strong style="font-size:14px;">{{ item.patient_name }}</strong>
+          <span class="badge badge-{{ item.status }}">{{ item.status|capitalize }}</span>
+        </div>
+        <div class="text-muted" style="font-size:13px;">{{ item.title }}</div>
+        <div class="mono" style="font-size:11px;">{{ item.submitted_at }}</div>
+      </a>
+      {% endfor %}
+    {% else %}
+      <div class="empty-state" style="padding:24px 12px;">
+        <h3 style="font-size:14px;">All caught up</h3>
+        <p style="font-size:13px;">No submissions waiting for review.</p>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="card" style="flex:1;">
+    {% if selected %}
+      <div class="flex-between">
+        <div>
+          <h2>{{ selected.title }}</h2>
+          <p class="text-muted" style="font-size:13px;">{{ selected.patient_name }} · submitted <span class="mono">{{ selected.submitted_at }}</span></p>
+        </div>
+        <span class="badge badge-{{ selected.status }}">{{ selected.status|capitalize }}</span>
+      </div>
+
+      <div class="status-thread" style="margin: 16px 0;">
+        <div class="step done"><span class="dot"></span><span class="label">Assigned</span></div>
+        <div class="connector"></div>
+        <div class="step done"><span class="dot"></span><span class="label">Submitted</span></div>
+        <div class="connector"></div>
+        <div class="step {% if selected.status == 'reviewed' %}done current{% endif %}"><span class="dot"></span><span class="label">Reviewed</span></div>
+      </div>
+
+      <div class="card" style="background: var(--surface-sunken); box-shadow:none;">
+        <strong style="font-size:13px;">Original instructions</strong>
+        <p style="margin:6px 0 0; font-size:14px;">{{ selected.instructions }}</p>
+      </div>
+
+      {% if selected.note %}
+      <div style="margin-top:16px;">
+        <strong style="font-size:13px;">Patient note</strong>
+        <p style="margin:6px 0 0; font-size:14px;">{{ selected.note }}</p>
+      </div>
+      {% endif %}
+
+      <div style="margin-top:16px;">
+        <strong style="font-size:13px;">Attached file</strong>
+        <div class="file-chip" style="margin-top:8px;">
+          📄 {{ selected.file_name }}
+          <a href="{{ selected.file_url }}" target="_blank" style="margin-left:8px;">Open</a>
+        </div>
+      </div>
+
+      <form method="POST" action="{{ url_for('review', task_id=selected.id) }}" style="margin-top:24px;">
+        <div class="field">
+          <label for="feedback">Feedback to patient</label>
+          <textarea id="feedback" name="feedback" placeholder="Written feedback the patient will see">{{ selected.feedback or '' }}</textarea>
+        </div>
+        <button type="submit" name="decision" value="approve" class="btn btn-primary">Mark reviewed</button>
+        <button type="submit" name="decision" value="request_changes" class="btn btn-secondary">Request changes</button>
+      </form>
+    {% else %}
+      <div class="empty-state">
+        <h3>Select a submission</h3>
+        <p>Choose an item from the queue to review it.</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

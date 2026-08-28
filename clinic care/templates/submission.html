@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Submit work — ClinicCare-Lite{% endblock %}
+{% set active_page = 'submission' %}
+
+{# EXPECTED CONTEXT: task = { "id": str, "title": str, "instructions": str, "clinician_name": str, "due_date": str }
+   EXPECTED ROUTE: POST (multipart/form-data) to url_for('submission', task_id=task.id)
+   with fields: note, file (accept=".txt,.csv,.pdf")
+   Naeem's backend should re-validate file extension/size server-side — the JS
+   check here is a UX convenience only, not a security boundary. #}
+
+{% block content %}
+<h1>Submit work</h1>
+<p class="text-muted" style="margin-bottom:24px;">for <strong>{{ task.title }}</strong> — assigned by {{ task.clinician_name }}</p>
+
+<div class="card" style="max-width:600px;">
+  <div class="card" style="background: var(--surface-sunken); box-shadow:none; margin-bottom:0;">
+    <strong style="font-size:13px;">Instructions</strong>
+    <p style="margin:6px 0 0; font-size:14px;">{{ task.instructions }}</p>
+  </div>
+
+  <form method="POST" action="{{ url_for('submission', task_id=task.id) }}" enctype="multipart/form-data" id="submission-form">
+    <div class="field" style="margin-top:20px;">
+      <label for="note">Notes (optional)</label>
+      <textarea id="note" name="note" placeholder="Add any context for your clinician"></textarea>
+    </div>
+
+    <div class="field">
+      <label>Attach file</label>
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload file">
+        <div id="dropzone-text">
+          <strong>Click to upload</strong> or drag a file here
+          <div class="file-types">.txt · .csv · .pdf — max 10MB</div>
+        </div>
+        <div id="file-chip-container"></div>
+      </div>
+      <input type="file" id="file-input" name="file" accept=".txt,.csv,.pdf" style="display:none;" required>
+      <div class="hint" id="upload-error" style="color: var(--danger); display:none;"></div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{{ url_for('patient_dashboard') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  initUploadDropzone({
+    dropzoneId: 'dropzone',
+    fileInputId: 'file-input',
+    chipContainerId: 'file-chip-container',
+    textId: 'dropzone-text',
+    errorId: 'upload-error',
+    acceptedExtensions: ['.txt', '.csv', '.pdf'],
+    maxSizeMB: 10
+  });
+</script>
+{% endblock %}

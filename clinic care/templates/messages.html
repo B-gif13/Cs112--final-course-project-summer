@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Messages — ClinicCare-Lite{% endblock %}
+{% set active_page = 'messages' %}
+
+{# EXPECTED CONTEXT:
+   threads = [ { "id": str, "other_name": str, "last_message": str, "unread": bool }, ... ]
+   active_thread = { "id": str, "other_name": str,
+     "messages": [ {"from_me": bool, "text": str, "sent_at": str}, ... ] } | None
+   EXPECTED ROUTE: POST to url_for('messages', thread_id=active_thread.id) with field: text
+   For real-time feel without websockets, app.js polls this page's message
+   endpoint every few seconds — swap for websockets/SSE later if needed. #}
+
+{% block content %}
+<h1>Messages</h1>
+<p class="text-muted" style="margin-bottom:20px;">Direct messages between you and your {{ 'patients' if current_user.role == 'clinician' else 'clinician' }}.</p>
+
+<div class="card">
+  <div class="message-layout">
+    <div class="thread-list">
+      {% if threads %}
+        {% for t in threads %}
+        <a href="{{ url_for('messages', thread_id=t.id) }}"
+           class="thread-item {% if active_thread and active_thread.id == t.id %}active{% endif %}"
+           style="display:block; color:var(--ink);">
+          <div class="name">{% if t.unread %}<span class="unread"></span>{% endif %}{{ t.other_name }}</div>
+          <div class="preview">{{ t.last_message }}</div>
+        </a>
+        {% endfor %}
+      {% else %}
+        <div class="empty-state" style="padding:24px 8px;">
+          <p style="font-size:13px;">No conversations yet.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="message-pane">
+      {% if active_thread %}
+        <h3 style="margin-bottom:10px;">{{ active_thread.other_name }}</h3>
+        <div class="message-scroll" id="message-scroll">
+          {% for m in active_thread.messages %}
+          <div class="bubble {{ 'sent' if m.from_me else 'received' }}">
+            {{ m.text }}
+            <div class="meta">{{ m.sent_at }}</div>
+          </div>
+          {% endfor %}
+        </div>
+        <form method="POST" action="{{ url_for('messages', thread_id=active_thread.id) }}" class="message-input">
+          <textarea name="text" placeholder="Write a message…" required></textarea>
+          <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+      {% else %}
+        <div class="empty-state">
+          <h3>No conversation selected</h3>
+          <p>Pick a thread on the left to start messaging.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  scrollMessagesToBottom('message-scroll');
+</script>
+{% endblock %}
